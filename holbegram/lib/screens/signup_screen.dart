@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
@@ -13,19 +14,6 @@ class SignUpScreen extends StatefulWidget {
     required this.passwordController,
     required this.passwordConfirmController,
   }) : super(key: key);
-
-  @override
-  _SignUpScreenState createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  bool _passwordVisible = true;
-
-  @override
-  void initState() {
-    _passwordVisible = true;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +42,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   SizedBox(height: 28),
                   TextField(
-                    controller: widget.emailController,
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
-                      fillColor: Colors.grey[200], // <-- Fixed: Changed `;` to `:`
+                      fillColor: Colors.grey[200],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
@@ -68,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: 28),
                   TextField(
-                    controller: widget.usernameController,
+                    controller: usernameController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       hintText: 'Full Name',
@@ -82,8 +70,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: 28),
                   TextField(
-                    controller: widget.passwordController,
-                    obscureText: _passwordVisible,
+                    controller: passwordController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       filled: true,
@@ -92,22 +80,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
                       ),
-                      suffixIcon: IconButton(
-                        icon: Icon(_passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                      ),
                     ),
-                  ),
+                                          ),
                   SizedBox(height: 28),
                   TextField(
-                    controller: widget.passwordConfirmController,
-                    obscureText: _passwordVisible,
+                    controller: passwordConfirmController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Confirm password',
                       filled: true,
@@ -115,16 +93,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(_passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
                       ),
                     ),
                   ),
@@ -183,3 +151,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+
+                 

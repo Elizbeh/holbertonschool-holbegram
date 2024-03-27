@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
   final TextEditingController emailController;
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       fillColor: Colors.grey[200],  
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none, // No border side
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: MaterialStateProperty.all(Color.fromARGB(218, 226, 37, 24)),
                         padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.zero,
                         )),
                       ),
                       child: Text(
@@ -147,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
+                          Navigator.pushNamed(context, '/signup');
                         },
                         child: Text(
                           'Sign up',
