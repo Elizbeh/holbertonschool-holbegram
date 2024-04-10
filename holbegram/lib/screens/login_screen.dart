@@ -1,5 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'signup_screen.dart'; 
+import 'signup_screen.dart';
+import '../methods/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   final TextEditingController emailController;
@@ -9,7 +14,7 @@ class LoginScreen extends StatefulWidget {
     Key? key,
     required this.emailController,
     required this.passwordController,
-  }) : super(key: key);
+  }) : super(key:key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -32,8 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 28),
-            Text(
+            const SizedBox(height: 28),
+            const Text(
               'Holbegram',
               style: TextStyle(
                 fontFamily: 'Billabong',
@@ -46,10 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 60,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  SizedBox(height: 28),
+                  const SizedBox(height: 28),
                   TextField(
                     controller: widget.emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -63,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   TextField(
                     controller: widget.passwordController,
                     obscureText: _passwordVisible,
@@ -87,27 +92,55 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
                   Container(
                     width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String email = widget.emailController.text.trim();
+                        String password = widget.emailController.text.trim();
+
+                        //validate email and password
+                        if (email.isEmpty || password.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please fill in all fields'),
+                              duration: Duration(seconds: 2),
+                            )
+                          );
+                          return;
+                        }
+                        // call authentication method to log in user
+                        String result = await AuthMethod().login(
+                          email: widget.emailController.text,
+                          password: widget.passwordController.text, 
+                        );
+                        if (result == 'success') {
+                          // navigate to home
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(result),
+                            duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(218, 226, 37, 24)),
-                        padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        backgroundColor: MaterialStateProperty.all(const Color.fromARGB(218, 226, 37, 24)),
+                        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 24)),
+                        shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         )),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Log in',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
-                  Row(
+                  const SizedBox(height: 24),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -125,11 +158,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: const BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.grey,
@@ -138,11 +171,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Don't have an account? ",
                         style: TextStyle(fontSize: 14),
                       ),
@@ -150,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/signup');
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign up',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -161,14 +194,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
@@ -178,8 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                           'OR',
                           style: TextStyle(
@@ -190,8 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
@@ -203,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -212,11 +245,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 40,
                         height: 40,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       TextButton(
                         onPressed: () {
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign in with Google',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,

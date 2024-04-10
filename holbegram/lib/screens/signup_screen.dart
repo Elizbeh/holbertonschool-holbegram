@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import '../methods/auth_methods.dart';
 
 class SignUpScreen extends StatelessWidget {
+  final authMethod = AuthMethod();
+  
   final TextEditingController emailController;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
   final TextEditingController passwordConfirmController;
 
-  const SignUpScreen({
+  SignUpScreen({
     Key? key,
     required this.emailController,
     required this.usernameController,
@@ -22,8 +25,8 @@ class SignUpScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 28),
-            Text(
+            const SizedBox(height: 28),
+            const Text(
               'Holbegram',
               style: TextStyle(
                 fontFamily: 'Billabong',
@@ -35,12 +38,12 @@ class SignUpScreen extends StatelessWidget {
               width: 80,
               height: 60,
             ),
-            Text('Sign up to see photos and videos from your friends'),
+            const Text('Sign up to see photos and videos from your friends'),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  SizedBox(height: 28),
+                  const SizedBox(height: 28),
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -54,7 +57,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 28),
+                  const SizedBox(height: 28),
                   TextField(
                     controller: usernameController,
                     keyboardType: TextInputType.text,
@@ -68,7 +71,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 28),
+                  const SizedBox(height: 28),
                   TextField(
                     controller: passwordController,
                     obscureText: true,
@@ -82,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                                           ),
-                  SizedBox(height: 28),
+                  const SizedBox(height: 28),
                   TextField(
                     controller: passwordConfirmController,
                     obscureText: true,
@@ -96,32 +99,68 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
                   Container(
                     width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        BuildContext? localContext = context;
+                        if (emailController.text.isEmpty || usernameController.text.isEmpty || passwordController.text.isEmpty || passwordConfirmController.text.isEmpty) {
+                          ScaffoldMessenger.of(localContext).showSnackBar(
+                            const SnackBar(content: Text('Please fill in all fields'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          return;
+                        }
+                        if (passwordConfirmController.text != passwordConfirmController.text) {
+                          ScaffoldMessenger.of(localContext).showSnackBar(
+                            const SnackBar(content: Text('Passwords do not match'),
+                            duration: Duration(seconds: 2),
+                            ),
+                          );
+                          return;
+                        }
+                        //Call the signUpUser method from AuthMethod to register the user
+                        String result = await authMethod.signUpUser(
+                          email: emailController.text,
+                          password: passwordController.text, 
+                          username: usernameController.text,
+                          );
+                          if (result == 'success') {
+                          // Navigate to the home screen 
+                          } else {
+                            // Show error message indicating sign-up failure
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(localContext).showSnackBar(
+                              SnackBar(
+                                content: Text(result),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }                         
+                      },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(218, 226, 37, 24)),
-                        padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 24)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        backgroundColor: MaterialStateProperty.all(const Color.fromARGB(218, 226, 37, 24)),
+                        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 24)),
+                        shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         )),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Sign Up',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
-                  Divider(color: Colors.grey),
-                  SizedBox(height: 16), 
+                  const SizedBox(height: 24),
+                  const Divider(color: Colors.grey),
+                  const SizedBox(height: 16), 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Have an account? ',
                         style: TextStyle(
                           fontSize: 14,
@@ -131,7 +170,7 @@ class SignUpScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(context, '/login');
                         },
-                        child: Text(
+                        child: const Text(
                           'Log in',
                           style: TextStyle(
                             fontSize: 14,

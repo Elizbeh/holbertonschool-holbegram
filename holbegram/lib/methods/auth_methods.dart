@@ -1,21 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:typed_data';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
+
 
 class AuthMethod {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> login({required String email, required String password}) async {
-    if (email.isEmpty || password.isEmpty) {
-      return "Please fill all the fields";
-    }
-
     try {
+      if (email.isEmpty || password.isEmpty) {
+        return "Please fill all the fields";
+    }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return "success";
     } catch (e) {
-      print('Error occurred while logging in: $e');
+      logger.e('Error occurred while logging in: $e');
       return e.toString();
     }
   }
@@ -26,10 +29,13 @@ class AuthMethod {
     required String username,
     Uint8List? file,
   }) async {
-    if (email.isEmpty || password.isEmpty || username.isEmpty) {
-      return "Please fill all the fields";
+      try {
+        if (email.isEmpty || password.isEmpty || username.isEmpty) {
+          return "Please fill all the fields";
     }
-    try {
+      if (password.length < 6 ) {
+        return "PAssword must be at least 6 characters long";
+      }
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -46,7 +52,7 @@ class AuthMethod {
         return 'An error occurred while signing up';
       }
     } catch (e) {
-      print('Error signing up: $e');
+      logger.e('Error signing up: $e');
       return 'An error occurred while signing up';
     }
   }
