@@ -1,19 +1,20 @@
-import 'package;flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class TextFieldInput extends StatelessWidget {
-  final TextEditingController controller;
-  final bool ispassword;
-  final String hintText;
-  final Widget? suffixIcon;
-  final TextInputType keyboardType;
+  TextEditingController controller;
 
-  TextField({
-    key? key,
+  bool isPassword;
+  String hintText;
+  Widget? suffixIcon;
+  TextInputType keyboardType;
+  
+  TextFieldInput({
+    Key? key,
     required this.controller,
-    required this.ispassword,
+    required this.isPassword,
     required this.hintText,
     this.suffixIcon,
-    this.keyboardType = TextInputType.text,
+    required this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -21,27 +22,24 @@ class TextFieldInput extends StatelessWidget {
     return TextField(
       keyboardType: keyboardType,
       controller: controller,
-      cursorColor: Color.fromARGB(218, 226, 37, 24),
+      cursorColor: const Color.fromARGB(218, 226, 37, 24),
       decoration: InputDecoration(
         hintText: hintText,
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: Color.transparent),
-          borderRadius: BorderRadius.circular(8),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
         ),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color.transparent),
-            borderRadius: BorderRadius.circular(8),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
         ),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color.transparent),
-            borderRadius: BorderRadius.circular(8),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
         ),
         filled: true,
-        contentPadding: EdgeInsets.all(8),
+        contentPadding: const EdgeInsets.all(8),
         suffixIcon: suffixIcon,
-        ),
-        textInputAction: TextInputAction.next,
-        obscureText: ispassword
-      );
-    }
+      ),
+      textInputAction: TextInputAction.next,
+      obscureText: isPassword,
+    );
   }
+}

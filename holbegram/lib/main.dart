@@ -2,8 +2,8 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
-import 'screens/signup_screen.dart';
+import 'screens/auth/login_screen.dart';
+import 'screens/auth/signup_screen.dart';
 import 'methods/auth_methods.dart';
 //import 'screens/auth/upload_image_screen.dart';
 
@@ -57,20 +57,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/*import 'package:flutter/material.dart';
-import 'screens/auth/upload_image_screen.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Holbegram',
-      home: AddPicture(email: 'Lee@example.com', password: 'Leeexample', username: 'Lee',)
-    );
-  }
-}*/
