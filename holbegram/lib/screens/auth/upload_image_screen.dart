@@ -7,11 +7,12 @@ class AddPicture extends StatefulWidget {
   final String password;
   final String username;
 
-  AddPicture({
+  const AddPicture({
+    Key? key, 
     required this.email,
     required this.password,
     required this.username,
-  });
+  }) : super(key: key);
 
   @override
   _AddPictureState createState() => _AddPictureState();
