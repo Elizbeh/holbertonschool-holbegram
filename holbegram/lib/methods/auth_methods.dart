@@ -56,4 +56,13 @@ class AuthMethod {
       return 'An error occurred while signing up';
     }
   }
+  /*Future<User?> getUserDetails() async {
+    try {
+      User? user = _auth.currentUser;
+      return user;
+    } catch (e) {
+      logger.e('Error getting user details $e');
+      return null;
+    }
+  }*/
 }
