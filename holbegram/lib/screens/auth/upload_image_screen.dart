@@ -53,7 +53,7 @@ class _AddPictureState extends State<AddPicture> {
         ),
       );
     } catch (e) {
-      print('Error signing up user: $e');
+      logger.e('Error signing up user: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error signing up user. Please try again.'),

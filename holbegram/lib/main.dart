@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'methods/auth_methods.dart';
+//import 'package:firebase_app_check/firebase_app_check.dart';
+
+
 //import 'screens/auth/upload_image_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides{
@@ -18,7 +21,7 @@ class MyHttpOverrides extends HttpOverrides{
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  
   runApp(MyApp());
 }
 
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
   final TextEditingController signupPasswordController = TextEditingController();
   final TextEditingController signupConfirmPasswordController = TextEditingController();
 
-  MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
 import '../../methods/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -99,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       onPressed: () async {
                         String email = widget.emailController.text.trim();
-                        String password = widget.emailController.text.trim();
+                        String password = widget.passwordController.text.trim();
 
                         //validate email and password
                         if (email.isEmpty || password.isEmpty) {

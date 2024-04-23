@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:typed_data';
 import 'package:logger/logger.dart';
+import '/models/user.dart';
 
 final logger = Logger();
-
 
 class AuthMethod {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,7 +14,8 @@ class AuthMethod {
     try {
       if (email.isEmpty || password.isEmpty) {
         return "Please fill all the fields";
-    }
+      }
+
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return "success";
     } catch (e) {
@@ -29,18 +30,22 @@ class AuthMethod {
     required String username,
     Uint8List? file,
   }) async {
-      try {
-        if (email.isEmpty || password.isEmpty || username.isEmpty) {
-          return "Please fill all the fields";
-    }
-      if (password.length < 6 ) {
-        return "PAssword must be at least 6 characters long";
+    try {
+      if (email.isEmpty || password.isEmpty || username.isEmpty) {
+        return "Please fill all the fields";
       }
+
+      if (password.length < 6) {
+        return "Password must be at least 6 characters long";
+      }
+
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       User? user = userCredential.user;
+      
+
       if (user != null) {
         await _firestore.collection("users").doc(user.uid).set({
           'uid': user.uid,
@@ -51,18 +56,41 @@ class AuthMethod {
       } else {
         return 'An error occurred while signing up';
       }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return 'The email address is already in use';
+      } else if (e.code == 'weak-password') {
+        return 'The password provided is too weak';
+      } else {
+        logger.e('Firebase Auth Error: $e');
+        return 'An error occurred while signing up';
+      }
+    } on FirebaseException catch (e) {
+      if (e.code == 'network-request-failed') {
+        return 'A network error has occurred. Please check your internet connection and try again.';
+      } else {
+        logger.e('Firebase Error: $e');
+        return 'An error occurred while signing up';
+      }
     } catch (e) {
       logger.e('Error signing up: $e');
       return 'An error occurred while signing up';
     }
   }
-  /*Future<User?> getUserDetails() async {
+
+  Future<Users?> getUserDetails() async {
     try {
       User? user = _auth.currentUser;
-      return user;
+      if (user != null) {
+        DocumentSnapshot snapshot = await _firestore.collection('users').doc(user.uid).get();
+        if (snapshot.exists) {
+          return Users.fromSnap(snapshot);
+        }
+      }
+      return null;
     } catch (e) {
       logger.e('Error getting user details $e');
       return null;
     }
-  }*/
+  }
 }

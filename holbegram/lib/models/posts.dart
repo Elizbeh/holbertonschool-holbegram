@@ -1,58 +1,63 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Users {
-  final String uuid;
-  final String email;
-  final String username;
-  final String bio;
-  final List<dynamic> photoUrl;
-  final List<dynamic> followers;
-  final List<dynamic> following;
-  final List<dynamic> posts;
-  final List<dynamic> saved;
-  final String searchKey;
 
-  User({
+class Post {
+  String caption;
+  String uid;
+  String username;
+  List<String> likes;
+  String postId;
+  DateTime datePublished;
+  String postUrl;
+  String profImage;
+
+  Post({
+    required this.caption,
     required this.uid,
-    required this.email,
     required this.username,
-    required this.bio,
-    required this.photoUrl,
-    required this.followers,
-    required this.following,
-    required this.posts,
-    required this.saved,
-    required this.searchKey,
+    required this.likes,
+    required this.postId,
+    required this.datePublished,
+    required this.postUrl,
+    required this.profImage,
   });
 
-  static User fromSnap(DocumentSnapshot snap) {
-    Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-    return User(
-      uid: snap.id,
-      email: data['email'],
-      username: data['username'],
-      bio: data['bio'],
-      photoUrl: data['photoUrl'],
-      followers: data['followers'],
-      following: data['following'],
-      posts: data['posts'],
-      saved: data['saved'],
-      searchKey: data['searchKey'],
+  factory Post.fromSnap(dynamic snapshot) {
+    return Post(
+      caption: snapshot['caption'],
+      uid: snapshot['uid'],
+      username: snapshot['username'],
+      likes: List<String>.from(snapshot['likes']),
+      postId: snapshot['postId'],
+      datePublished: DateTime.parse(snapshot['datePublished']),
+      postUrl: snapshot['postUrl'],
+      profImage: snapshot['profImage'],
+    );
+  }
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      caption: json['caption'],
+      uid: json['uid'],
+      username: json['username'],
+      likes: List<String>.from(json['likes']),
+      postId: json['postId'],
+      datePublished: DateTime.parse(json['datePublished']),
+      postUrl: json['postUrl'],
+      profImage: json['profImage'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'caption': caption,
       'uid': uid,
-      'email': email,
       'username': username,
-      'bio': bio,
-      'photoUrl': photoUrl,
-      'followers': followers,
-      'following': following,
-      'posts': posts,
-      'saved': saved,
-      'searchKey': searchKey,
+      'likes': likes,
+      'postId': postId,
+      'datePublished': datePublished.toIso8601String(),
+      'postUrl': postUrl,
+      'profImage': profImage,
     };
   }
 }
